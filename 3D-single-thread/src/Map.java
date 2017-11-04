@@ -132,11 +132,11 @@ public class Map implements Animatable {
 
     private void initRules() {
 
-        surviveRules = new int[]{2, 3}; //game of life
-        bornRules = new int[]{3};
+//        surviveRules = new int[]{2, 3}; //game of life
+//        bornRules = new int[]{3};
 
-//		surviveRules = new int[] {}; //seeds
-//		bornRules = new int[] {2};
+		surviveRules = new int[] {}; //seeds
+		bornRules = new int[] {2};
 
 //		surviveRules = new int[] {1,2}; //triangle fractal
 //		bornRules = new int[] {1};

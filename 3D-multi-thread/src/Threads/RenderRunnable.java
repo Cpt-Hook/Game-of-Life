@@ -1,7 +1,14 @@
 package Threads;
 
+import Main.Map;
 
-class RenderRunnable implements Runnable {
+public class RenderRunnable implements Runnable {
+
+    private final Map map;
+
+    public RenderRunnable(Map map) {
+        this.map = map;
+    }
 
     @Override
     public void run() {
@@ -15,10 +22,10 @@ class RenderRunnable implements Runnable {
                 }
             }
 
-            render();
-            synchronized (Map.this) {
-                doneCheck++;
-                Map.this.notifyAll();
+            map.render();
+            synchronized (map) {
+                map.doneCheck++;
+                map.notifyAll();
             }
         }
     }

@@ -1,3 +1,7 @@
+package Main;
+
+import Threads.CalcRunnable;
+import Threads.RenderRunnable;
 import animation.Animatable;
 import animation.Animation;
 import javafx.scene.canvas.GraphicsContext;
@@ -5,21 +9,36 @@ import javafx.scene.input.MouseEvent;
 
 public class Map implements Animatable {
 
+    private final Runnable comRunnable;
+    private final Runnable renRunnable;
     private GraphicsContext g;
     private int width, height;
     private boolean[][] cells, nextGen;
     private int[] surviveRules, bornRules;
     private Grid grid;
     private Animation<Map> anim;
+    public int doneCheck;
 
-    public Map(GraphicsContext g, int width, int height, int slowness) {
+    Map(GraphicsContext g, int width, int height, int slowness) {
         this.width = width;
         this.height = height;
         this.g = g;
+
         anim = new Animation<>(this, slowness);
+        grid = new Grid(width, height);
+
         cells = new boolean[width][height];
         nextGen = new boolean[width][height];
-        grid = new Grid(width, height);
+
+        int threadCount = 4;
+        comRunnable = new CalcRunnable(this, threadCount);
+        renRunnable = new RenderRunnable(this);
+        Thread comThread = new Thread(comRunnable);
+        Thread renThread = new Thread(renRunnable);
+
+        comThread.start();
+        renThread.start();
+        doneCheck = 0;
 
         initRules();
         initRandomGrid();
@@ -27,10 +46,26 @@ public class Map implements Animatable {
 
     @Override
     public void handle() {
-        nextGen();
+        nextGen = new boolean[width][height];
+        synchronized (comRunnable) {
+            comRunnable.notifyAll();
+        }
+        synchronized (renRunnable) {
+            renRunnable.notifyAll();
+        }
+        synchronized (this) {
+            while (doneCheck != 2) {
+                try {
+                    wait();
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        doneCheck = 0;
+        cells = nextGen;
     }
 
-    public void clickEvent6Cells(MouseEvent e) {
+    void clickEvent6Cells(MouseEvent e) {
         int x = grid.toXPos(e.getX());
         int y = grid.toYPos(e.getY());
 
@@ -56,18 +91,25 @@ public class Map implements Animatable {
         grid.render(g, cells);
     }
 
-    public void nextGen() {
+    public void computeNextGen(int offset, int threadNum) {
+        for (int i = offset; i < width; i += threadNum) {
+            for (int j = 0; j < height; j++) {
+                rules(i, j);
+            }
+        }
+    }
+
+    public void computeNextGen() {
         nextGen = new boolean[width][height];
+
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 rules(i, j);
             }
         }
-        cells = nextGen;
-        render();
     }
 
-    public void startStop() {
+    void startStop() {
         if (anim.getRunning())
             anim.stop();
         else
@@ -75,7 +117,7 @@ public class Map implements Animatable {
     }
 
 
-    public void initRandomGrid() {
+    void initRandomGrid() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 cells[i][j] = Main.rnd.nextBoolean();
@@ -83,7 +125,7 @@ public class Map implements Animatable {
         }
     }
 
-    public void clearGrid() {
+    void clearGrid() {
         cells = new boolean[width][height];
     }
 
@@ -135,11 +177,11 @@ public class Map implements Animatable {
 //        surviveRules = new int[]{2, 3}; //game of life
 //        bornRules = new int[]{3};
 
-//		surviveRules = new int[] {}; //seeds
-//		bornRules = new int[] {2};
+		surviveRules = new int[] {}; //seeds
+		bornRules = new int[] {2};
 
-		surviveRules = new int[] {1,2}; //triangle fractal
-		bornRules = new int[] {1};
+//        surviveRules = new int[]{1, 2}; //triangle fractal
+//        bornRules = new int[]{1};
 
 //		surviveRules = new int[] {2,3}; //high life
 //		bornRules = new int[] {3,6};
@@ -148,7 +190,7 @@ public class Map implements Animatable {
     /**
      * @return the grid
      */
-    public Grid getGrid() {
+    Grid getGrid() {
         return grid;
     }
 

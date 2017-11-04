@@ -15,6 +15,7 @@ public class Main extends Application {
     public static Random rnd;
     private static Canvas canvas;
     private static Scene scene;
+    private int width = 1280, height = 720;
 
     static {
         rnd = new Random();
@@ -40,7 +41,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        map = new Map(canvas.getGraphicsContext2D(), 500, 500, 1);
+        map = new Map(canvas.getGraphicsContext2D(), width, height, 1);
 
         canvas.widthProperty().bind(scene.widthProperty());
         canvas.heightProperty().bind(scene.heightProperty());
@@ -70,15 +71,13 @@ public class Main extends Application {
         canvas.requestFocus();
 
         map.render();
-
     }
 
     @Override
     public void init() {
-        canvas = new Canvas(500, 500);
+        canvas = new Canvas(width, height);
         Group root = new Group(canvas);
-        scene = new Scene(root, 500, 500);
-
+        scene = new Scene(root, width, height);
     }
 
 }
