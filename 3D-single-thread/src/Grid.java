@@ -17,7 +17,7 @@ public class Grid {
 		
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				if(generation[i][j]==true)
+				if(generation[i][j])
 					g.fillRect(Math.ceil(toXCoord(i)), 
 							   Math.ceil(toYCoord(j)),
 							   Math.ceil(tileWidth()),

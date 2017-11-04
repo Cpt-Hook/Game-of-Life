@@ -93,7 +93,7 @@ public class Map implements Animatable{
 	}
 	private int rules(int x, int y) {
 		int neighbors = 0;
-		
+
 		for(int i = -1; i<=1; i++) {
 			for(int j = -1; j<=1; j++) {
 				if(!(i == 0 && j == 0)) {
@@ -102,10 +102,10 @@ public class Map implements Animatable{
 				}
 			}
 		}
-		
+
 		if(cells[x][y] && surviveRules(neighbors)) {
 			nextGen[x][y] = true;
-			
+
 		}else if(!cells[x][y] && bornRules(neighbors))
 			nextGen[x][y] = true;
 		else
@@ -130,12 +130,13 @@ public class Map implements Animatable{
 	}
 	
 	private void initRules() {
-		surviveRules = new int[] {}; //seeds
-		bornRules = new int[] {2};
-		
+
 		surviveRules = new int[] {2,3}; //game of life
 		bornRules = new int[] {3};
-		
+
+//		surviveRules = new int[] {}; //seeds
+//		bornRules = new int[] {2};
+
 //		surviveRules = new int[] {1,2}; //triangle fractal
 //		bornRules = new int[] {1};
 //
