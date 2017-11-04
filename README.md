@@ -1,4 +1,4 @@
 # Game-of-Life
-Conway's Game of Life in JavaFX
+Conway's Game of Life in JavaFX.
 
-Single/double threaded 3d and 2d versions
+Single/multi threaded 3d and 2d versions.
