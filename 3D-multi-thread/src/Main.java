@@ -52,7 +52,7 @@ public class Main extends Application {
             map.getGrid().calcTileHeight();
             map.render();
         });
-        canvas.setOnMouseClicked(map::clickEvent1Cell);
+        canvas.setOnMouseClicked(map::clickEvent6Cells);
         canvas.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER)
                 map.nextGen();
@@ -78,10 +78,6 @@ public class Main extends Application {
         canvas = new Canvas(500, 500);
         Group root = new Group(canvas);
         scene = new Scene(root, 500, 500);
-
-    }
-
-    public void newMap(int width, int height) {
 
     }
 }

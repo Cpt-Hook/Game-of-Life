@@ -81,7 +81,4 @@ public class Main extends Application {
 
     }
 
-    public void newMap(int width, int height) {
-
-    }
 }
