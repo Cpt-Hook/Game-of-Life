@@ -30,7 +30,7 @@ public class Map implements Animatable {
         cells = new boolean[width][height];
         nextGen = new boolean[width][height];
 
-        int threadCount = 4;
+        int threadCount = 2;
         comRunnable = new CalcRunnable(this, threadCount);
         renRunnable = new RenderRunnable(this);
         Thread comThread = new Thread(comRunnable);
@@ -174,11 +174,11 @@ public class Map implements Animatable {
 
     private void initRules() {
 
-//        surviveRules = new int[]{2, 3}; //game of life
-//        bornRules = new int[]{3};
+        surviveRules = new int[]{2, 3}; //game of life
+        bornRules = new int[]{3};
 
-		surviveRules = new int[] {}; //seeds
-		bornRules = new int[] {2};
+//		surviveRules = new int[] {}; //seeds
+//		bornRules = new int[] {2};
 
 //        surviveRules = new int[]{1, 2}; //triangle fractal
 //        bornRules = new int[]{1};
