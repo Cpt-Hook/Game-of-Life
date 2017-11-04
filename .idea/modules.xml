@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/2D/2D.iml" filepath="$PROJECT_DIR$/2D/2D.iml" />
       <module fileurl="file://$PROJECT_DIR$/3D-multi-thread/3D-multi-thread.iml" filepath="$PROJECT_DIR$/3D-multi-thread/3D-multi-thread.iml" />
       <module fileurl="file://$PROJECT_DIR$/3D-single-thread/3D-single-thread.iml" filepath="$PROJECT_DIR$/3D-single-thread/3D-single-thread.iml" />
     </modules>
