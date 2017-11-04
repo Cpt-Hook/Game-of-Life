@@ -38,7 +38,6 @@ public class Game {
 		
 		randomiseRuleSet();
 		firstPointGenInit();
-		System.out.println(ruleNum);
 	}
 	
 	public void setRule(int ruleNum) {
@@ -50,7 +49,7 @@ public class Game {
 			rules[i] = false;
 		}
 		for(int i = 8-array.length; i < 8;i++) {
-			rules[i] = (array[i-(8-array.length)]=='1')?true:false;
+			rules[i] = array[i - (8 - array.length)] == '1';
 		}
 		
 		ruleSet=rules;
@@ -129,14 +128,14 @@ public class Game {
 		for (int i = 0; i < columns; i++) {
 			if(genCount<columns) {
 				rows[genCount][i] = rules(
-						(i-1 == -1)? false : rows[genCount-1][i-1],
+						(i - 1 != -1) && rows[genCount - 1][i - 1],
 						rows[genCount-1][i],
-						(i+1==columns)?false : rows[genCount-1][i+1]);
+						(i + 1 != columns) && rows[genCount - 1][i + 1]);
 			}else {
 				rows[columns-1][i] = rules(
-						(i-1 == -1)? false : rows[columns-2][i-1],
+						(i - 1 != -1) && rows[columns - 2][i - 1],
 						rows[columns-2][i],
-						(i+1 == columns)? false : rows[columns-2][i+1]);
+						(i + 1 != columns) && rows[columns - 2][i + 1]);
 			}
 		}
 		
